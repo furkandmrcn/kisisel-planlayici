@@ -90,7 +90,7 @@ class Dashboard(ctk.CTkFrame):
         self._update_today_summary()
         self._update_streaks()
         self._update_weekly_progress()
-        self.after(30000, self.refresh_data)
+        #self.after(30000, self.refresh_data)
     
     def _update_today_summary(self):
         for widget in self.today_content.winfo_children():
