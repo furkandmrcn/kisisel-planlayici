@@ -111,6 +111,8 @@ class MainWindow(ctk.CTk):
                 page.pack(fill="both", expand=True)
                 if hasattr(page, 'refresh_data'):
                     page.refresh_data()
+                if hasattr(page, 'refresh_analytics'):
+                    page.refresh_analytics()
             else:
                 page.pack_forget()
     

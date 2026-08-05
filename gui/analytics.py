@@ -17,7 +17,7 @@ class AnalyticsPage(ctk.CTkFrame):
         self.grid_rowconfigure(1, weight=1)
         
         self._create_widgets()
-        self.refresh_analytics()
+        self.after(500, self.refresh_analytics)
     
     def _create_widgets(self):
         # Başlık ve butonlar
