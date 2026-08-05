@@ -1,0 +1,4 @@
+planner.db
+*.db
+__pycache__/
+.venv/

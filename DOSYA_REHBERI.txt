@@ -1,0 +1,108 @@
+====================================================================
+KİŞİSEL PLANLAYICI VE AKTİVİTE TAKİP UYGULAMASI - DOSYA REHBERİ
+====================================================================
+
+📁 ANA KLASÖR DOSYALARI:
+--------------------------------------------------------------------
+
+📄 main.py
+   → Uygulamanın başlatıcı dosyası. Programı çalıştırmak için:
+     python main.py
+
+📄 models.py
+   → Veritabanı tablolarının tanımlandığı dosya.
+     (Category, DailyActivity, ReadingDetail, WorkDetail,
+      EducationDetail, HobbyDetail, WeeklyPlan, Note, Streak)
+
+📄 database.py
+   → Veritabanı bağlantısı, yedekleme ve dışa aktarma işlemleri.
+
+📄 requirements.txt
+   → Gerekli Python kütüphaneleri. Kurmak için:
+     pip install -r requirements.txt
+
+📄 planner.db
+   → SQLite veritabanı dosyası (otomatik oluşur).
+     Tüm veriler burada saklanır. Silerseniz sıfırlanır.
+
+📄 DOSYA_REHBERI.txt
+   → Bu dosya. Hangi dosyanın ne işe yaradığını gösterir.
+
+
+📁 utils/ KLASÖRÜ:
+--------------------------------------------------------------------
+
+📄 utils/streak_tracker.py
+   → Streak (zincir) takip sistemi.
+     Üst üste kaç gün aktivite yapıldığını hesaplar.
+
+📄 utils/export.py
+   → Verileri JSON ve CSV formatında dışa aktarma.
+
+
+📁 gui/ KLASÖRÜ (Arayüz Dosyaları):
+--------------------------------------------------------------------
+
+📄 gui/styles.py
+   → Renk paleti, font ayarları, tema yapılandırması.
+     Arayüzün görünümüyle ilgili her şey burada.
+
+📄 gui/main_window.py
+   → Ana pencere ve sidebar (sol menü) yapısı.
+     Sayfalar arası geçişi yönetir.
+
+📄 gui/dashboard.py
+   → Dashboard (Genel Bakış) sayfası.
+     Bugünün özeti, streak bilgileri, haftalık ilerleme,
+     hızlı erişim butonları, aktivite detay popup'ı,
+     aktivite silme özelliği.
+
+📄 gui/activity_form.py
+   → Aktivite Ekleme sayfası.
+     Kategoriye göre dinamik form alanları,
+     aktivite kaydetme işlemi.
+
+📄 gui/weekly_planner.py
+   → Haftalık Planlayıcı sayfası.
+     Haftalık plan ekleme, tamamlandı işaretleme,
+     tamamlanmayanları sonraki haftaya devretme.
+
+📄 gui/notes.py
+   → Notlar sayfası.
+     Not ekleme, görüntüleme, plana aktarma, silme.
+
+📄 gui/analytics.py
+   → Analiz ve İstatistik sayfası.
+     Grafikler, toplam istatistikler,
+     JSON/CSV dışa aktarma butonları.
+
+📄 gui/history.py
+   → Geçmiş Aktiviteler sayfası.
+     Filtreleme (Tümü/Bugün/Hafta/Ay/Kategori),
+     aktivite detay görüntüleme, aktivite silme.
+
+
+====================================================================
+SIK KARŞILAŞILAN HATALAR VE ÇÖZÜMLERİ:
+====================================================================
+
+❌ HATA: ModuleNotFoundError
+   → Eksik kütüphane. Çözüm: pip install -r requirements.txt
+
+❌ HATA: Detaylar popup'ta gözükmüyor
+   → activity_form.py: session.add(detail) satırı eksik olabilir.
+   → dashboard.py veya history.py: session.merge(activity) ekleyin.
+
+❌ HATA: Veritabanı hatası
+   → planner.db dosyasını silip uygulamayı yeniden başlatın.
+
+====================================================================
+KULLANIM İPUÇLARI:
+====================================================================
+
+💾 Yedekleme: Sidebar'daki "💾 Yedekle" butonu
+📤 Dışa Aktarma: Analiz sayfasında JSON/CSV butonları
+🗑 Veri Sıfırlama: planner.db dosyasını silin
+📅 Hafta Geçişi: Haftalık Plan'da ◀ ▶ butonları
+🔄 Devretme: Haftalık Plan'da "Aktarılmayanları Devret"
+====================================================================
