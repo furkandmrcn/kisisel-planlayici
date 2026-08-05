@@ -22,7 +22,6 @@ class WeeklyPlanner(ctk.CTkFrame):
         self.refresh_plans()
     
     def _create_widgets(self):
-        # Başlık ve navigasyon
         header = ctk.CTkFrame(self, fg_color="transparent")
         header.grid(row=0, column=0, sticky="ew", padx=20, pady=10)
         
@@ -47,7 +46,6 @@ class WeeklyPlanner(ctk.CTkFrame):
             command=self._transfer_incomplete
         ).pack(side="left", padx=10)
         
-        # Plan ekleme formu
         add_frame = ctk.CTkFrame(self, fg_color=AppStyles.COLORS['surface'])
         add_frame.grid(row=1, column=0, sticky="ew", padx=20, pady=(0, 10))
         
@@ -68,7 +66,6 @@ class WeeklyPlanner(ctk.CTkFrame):
         
         ctk.CTkButton(form_row, text="➕ Ekle", width=60, font=AppStyles.get_font(12), command=self._add_plan).pack(side="left", padx=5)
         
-        # Plan listesi
         self.plans_frame = ctk.CTkScrollableFrame(self, fg_color=AppStyles.COLORS['surface'])
         self.plans_frame.grid(row=2, column=0, sticky="nsew", padx=20, pady=(0, 10))
     
@@ -168,14 +165,16 @@ class WeeklyPlanner(ctk.CTkFrame):
                         plan_row = ctk.CTkFrame(day_frame, fg_color="transparent")
                         plan_row.pack(fill="x", padx=20, pady=2)
                         
-                        completed_var = ctk.BooleanVar(value=plan.is_completed)
-                        ctk.CTkCheckBox(
+                        checkbox = ctk.CTkCheckBox(
                             plan_row,
                             text="",
-                            variable=completed_var,
                             width=20,
-                            command=lambda p=plan, v=completed_var: self._toggle_plan(p, v.get())
-                        ).pack(side="left")
+                            command=lambda p=plan: self._toggle_plan(p)
+                        )
+                        checkbox.pack(side="left")
+                        
+                        if plan.is_completed:
+                            checkbox.select()
                         
                         title_text = f"✓ {plan.title}" if plan.is_completed else plan.title
                         ctk.CTkLabel(plan_row, text=title_text, font=AppStyles.get_font(13)).pack(side="left", padx=5)
@@ -208,10 +207,11 @@ class WeeklyPlanner(ctk.CTkFrame):
         finally:
             session.close()
     
-    def _toggle_plan(self, plan, completed):
+    def _toggle_plan(self, plan):
         session = self.db_manager.get_session()
         try:
-            plan.is_completed = completed
+            plan = session.merge(plan)
+            plan.is_completed = not plan.is_completed
             session.commit()
             self.refresh_plans()
         finally:
@@ -221,6 +221,7 @@ class WeeklyPlanner(ctk.CTkFrame):
         if messagebox.askyesno("Onay", "Bu planı silmek istiyor musunuz?"):
             session = self.db_manager.get_session()
             try:
+                plan = session.merge(plan)
                 session.delete(plan)
                 session.commit()
                 self.refresh_plans()
